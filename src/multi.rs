@@ -155,9 +155,9 @@ impl Multi {
     ///
     /// The third `usize` parameter is a custom value set by the `assign` method
     /// below.
-    pub fn socket_function<F>(&mut self, f: F) -> Result<(), MultiError>
+    pub fn socket_function<F>(&'a mut self, f: F) -> Result<(), MultiError>
     where
-        F: FnMut(Socket, SocketEvents, usize) + Send + 'static,
+        F: FnMut(Socket, SocketEvents, usize) + Send + 'a,
     {
         self._socket_function(Box::new(f))
     }
@@ -254,9 +254,9 @@ impl Multi {
     /// The timer callback should return `true` on success, and `false` on
     /// error. This callback can be used instead of, or in addition to,
     /// `get_timeout`.
-    pub fn timer_function<F>(&mut self, f: F) -> Result<(), MultiError>
+    pub fn timer_function<F>(&'a mut self, f: F) -> Result<(), MultiError>
     where
-        F: FnMut(Option<Duration>) -> bool + Send + 'static,
+        F: FnMut(Option<Duration>) -> bool + Send + 'a,
     {
         self._timer_function(Box::new(f))
     }
